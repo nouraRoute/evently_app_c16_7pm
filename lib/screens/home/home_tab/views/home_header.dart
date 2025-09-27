@@ -130,50 +130,47 @@ class _FilterViewState extends State<FilterView> {
         itemBuilder: (context, index) {
           CategoryModel currantCat = categories[index];
           bool isSelected = selectedId == currantCat.id;
-          return Theme(
-            data: Theme.of(context).copyWith(splashColor: Colors.transparent),
-            child: FilterChip(
-              selectedColor: Theme.of(context).focusColor,
-              labelStyle: TextStyle(),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadiusGeometry.circular(46),
-              ),
-              side: isSelected
-                  ? null
-                  : BorderSide(color: Theme.of(context).focusColor),
-              backgroundColor: Theme.of(
-                context,
-              ).bottomNavigationBarTheme.backgroundColor,
-              showCheckmark: false,
-
-              label: Row(
-                spacing: 5,
-                children: [
-                  Icon(
-                    currantCat.icon,
-                    color: isSelected
-                        ? Theme.of(context).splashColor
-                        : AppColors.lightBgColors,
-                  ),
-                  Text(
-                    currantCat.title,
-                    style: TextStyle(
-                      color: isSelected
-                          ? Theme.of(context).splashColor
-                          : AppColors.lightBgColors,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ],
-              ),
-              onSelected: (value) {
-                setState(() {
-                  selectedId = currantCat.id;
-                });
-              },
-              selected: isSelected,
+          return FilterChip(
+            selectedColor: Theme.of(context).focusColor,
+            labelStyle: TextStyle(),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadiusGeometry.circular(46),
             ),
+            side: isSelected
+                ? null
+                : BorderSide(color: Theme.of(context).focusColor),
+            backgroundColor: Theme.of(
+              context,
+            ).bottomNavigationBarTheme.backgroundColor,
+            showCheckmark: false,
+
+            label: Row(
+              spacing: 5,
+              children: [
+                Icon(
+                  currantCat.icon,
+                  color: isSelected
+                      ? Theme.of(context).cardColor
+                      : AppColors.lightBgColors,
+                ),
+                Text(
+                  currantCat.title,
+                  style: TextStyle(
+                    color: isSelected
+                        ? Theme.of(context).cardColor
+                        : AppColors.lightBgColors,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
+            ),
+            onSelected: (value) {
+              setState(() {
+                selectedId = currantCat.id;
+              });
+            },
+            selected: isSelected,
           );
         },
         scrollDirection: Axis.horizontal,

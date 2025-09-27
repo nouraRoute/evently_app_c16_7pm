@@ -1,11 +1,14 @@
 import 'package:evently_app/common/theme/app_colors.dart';
 import 'package:evently_app/gen/assets.gen.dart';
+import 'package:evently_app/screens/events/new_event_screens.dart';
+import 'package:evently_app/screens/home/fav_tab/fav_tab.dart';
 import 'package:evently_app/screens/home/home_tab/home_tab.dart';
+import 'package:evently_app/screens/home/settings_tab/settings_tab.dart';
 import 'package:flutter/material.dart';
 
 class MainLayerScreen extends StatefulWidget {
   const MainLayerScreen({super.key});
-  static const routeName = '/main-layer';
+  static const routeName = '/main_layer';
 
   @override
   State<MainLayerScreen> createState() => _MainLayerScreenState();
@@ -13,7 +16,7 @@ class MainLayerScreen extends StatefulWidget {
 
 class _MainLayerScreenState extends State<MainLayerScreen> {
   int currantIndent = 0;
-  List<Widget> tabs = [HomeTab(), Container(), Container(), Container()];
+  List<Widget> tabs = [HomeTab(), Container(), FavTab(), SettingsTab()];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,7 +32,8 @@ class _MainLayerScreenState extends State<MainLayerScreen> {
           backgroundColor: Theme.of(
             context,
           ).bottomNavigationBarTheme.backgroundColor,
-          onPressed: () {},
+          onPressed: () =>
+              Navigator.of(context).pushNamed(NewEventScreen.routeName),
 
           shape: CircleBorder(),
           child: Icon(Icons.add, color: AppColors.lightBgColors, size: 30),

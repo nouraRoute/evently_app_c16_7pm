@@ -1,4 +1,3 @@
-import 'package:evently_app/gen/assets.gen.dart';
 import 'package:evently_app/screens/home/home_tab/views/events_list_view.dart';
 import 'package:evently_app/screens/home/home_tab/views/home_header.dart';
 import 'package:flutter/widgets.dart';

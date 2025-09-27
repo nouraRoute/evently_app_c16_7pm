@@ -12,7 +12,7 @@ class AppTheme {
     hintColor: AppColors.greyColor,
     hoverColor: AppColors.greyColor,
     focusColor: AppColors.lightBgColors,
-    splashColor: AppColors.mainColor,
+    cardColor: AppColors.mainColor,
     appBarTheme: AppBarTheme(
       backgroundColor: AppColors.lightBgColors,
       iconTheme: IconThemeData(color: AppColors.mainColor),
@@ -49,7 +49,7 @@ class AppTheme {
     hintColor: AppColors.mainColor,
     hoverColor: AppColors.darkTextColor,
     focusColor: AppColors.mainColor,
-    splashColor: AppColors.lightBgColors,
+    cardColor: AppColors.lightBgColors,
 
     appBarTheme: AppBarTheme(
       backgroundColor: AppColors.darkBgColor,

@@ -1,5 +1,6 @@
 import 'package:evently_app/common/theme/app_theme.dart';
 import 'package:evently_app/screens/auth/login_screen.dart';
+import 'package:evently_app/screens/events/new_event_screens.dart';
 import 'package:evently_app/screens/auth/sign_up_screen.dart';
 import 'package:evently_app/screens/home/main_layer_screen.dart';
 import 'package:flutter/material.dart';
@@ -19,11 +20,12 @@ class MyApp extends StatelessWidget {
         LoginScreen.routeName: (_) => LoginScreen(),
         SignUpScreen.routeName: (_) => SignUpScreen(),
         MainLayerScreen.routeName: (_) => MainLayerScreen(),
+        NewEventScreen.routeName: (_) => NewEventScreen(),
       },
       title: 'Flutter Demo',
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
-      themeMode: ThemeMode.dark,
+      themeMode: ThemeMode.light,
       initialRoute: MainLayerScreen.routeName,
     );
   }

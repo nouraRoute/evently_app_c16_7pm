@@ -113,6 +113,10 @@ class $AssetsImageGen {
   AssetGenImage get gamingCard =>
       const AssetGenImage('assets/image/gaming_card.png');
 
+  /// File path: assets/image/logo_image.png
+  AssetGenImage get logoImage =>
+      const AssetGenImage('assets/image/logo_image.png');
+
   /// File path: assets/image/meeting_card.png
   AssetGenImage get meetingCard =>
       const AssetGenImage('assets/image/meeting_card.png');
@@ -121,13 +125,19 @@ class $AssetsImageGen {
   AssetGenImage get sportCard =>
       const AssetGenImage('assets/image/sport_card.png');
 
+  /// File path: assets/image/work_shop.png
+  AssetGenImage get workShop =>
+      const AssetGenImage('assets/image/work_shop.png');
+
   /// List of all assets
   List<AssetGenImage> get values => [
     birthdayCard,
     eating,
     gamingCard,
+    logoImage,
     meetingCard,
     sportCard,
+    workShop,
   ];
 }
 

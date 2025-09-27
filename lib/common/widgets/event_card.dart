@@ -1,23 +1,28 @@
 import 'package:evently_app/common/theme/app_colors.dart';
-import 'package:evently_app/gen/assets.gen.dart';
+import 'package:evently_app/models/category_model.dart';
+import 'package:evently_app/models/event_model.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class EventCard extends StatelessWidget {
-  const EventCard({super.key});
-
+  const EventCard({super.key, required this.eventModel});
+  final EventModel eventModel;
   @override
   Widget build(BuildContext context) {
+    String? image = CategoryModel.categories
+        .firstWhere(
+          (element) => element.id == eventModel.categoryId,
+          orElse: () => CategoryModel(id: 0, title: '', icon: Icons.close),
+        )
+        .image;
     return Container(
       height: 200,
       margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
       padding: EdgeInsets.all(8),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
-        image: DecorationImage(
-          image: AssetImage(Assets.image.birthdayCard.path),
-          fit: BoxFit.fill,
-        ),
+        image: image == null
+            ? null
+            : DecorationImage(image: AssetImage(image), fit: BoxFit.fill),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -30,7 +35,7 @@ class EventCard extends StatelessWidget {
               color: Theme.of(context).scaffoldBackgroundColor,
             ),
             child: Text(
-              '22\nNov',
+              eventModel.date,
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
@@ -49,7 +54,7 @@ class EventCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'This is a Birthday Party ',
+                  eventModel.title,
                   style: Theme.of(
                     context,
                   ).textTheme.labelLarge!.copyWith(fontWeight: FontWeight.bold),
@@ -60,7 +65,12 @@ class EventCard extends StatelessWidget {
                   child: IconButton(
                     padding: EdgeInsets.all(0),
                     onPressed: () {},
-                    icon: Icon(Icons.favorite),
+                    icon: Icon(
+                      eventModel.isFav
+                          ? Icons.favorite
+                          : Icons.favorite_border_rounded,
+                      color: AppColors.mainColor,
+                    ),
                   ),
                 ),
               ],
