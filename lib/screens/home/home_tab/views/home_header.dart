@@ -1,12 +1,17 @@
 import 'package:evently_app/common/theme/app_colors.dart';
+import 'package:evently_app/l10n/app_localizations.dart';
 import 'package:evently_app/models/category_model.dart';
+import 'package:evently_app/providers/auth_provider.dart';
+import 'package:evently_app/providers/events_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class HomeHeader extends StatelessWidget {
   const HomeHeader({super.key});
 
   @override
   Widget build(BuildContext context) {
+    CurrantAuthProvider provider = Provider.of<CurrantAuthProvider>(context);
     return Container(
       padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -24,7 +29,7 @@ class HomeHeader extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Welcome Back ✨', //TODO:localization
+                      AppLocalizations.of(context)!.welcomeBack,
                       style: TextStyle(
                         color: AppColors.lightBgColors,
                         fontSize: 14,
@@ -32,7 +37,7 @@ class HomeHeader extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      'John Safwat',
+                      provider.userModel?.name ?? "",
                       style: TextStyle(
                         color: AppColors.lightBgColors,
                         fontSize: 24,
@@ -111,17 +116,13 @@ class HomeHeader extends StatelessWidget {
   }
 }
 
-class FilterView extends StatefulWidget {
+class FilterView extends StatelessWidget {
   const FilterView({super.key});
 
   @override
-  State<FilterView> createState() => _FilterViewState();
-}
-
-class _FilterViewState extends State<FilterView> {
-  int selectedId = CategoryModel.categories.first.id;
-  @override
   Widget build(BuildContext context) {
+    int selectedId = Provider.of<EventsProvider>(context).selectedCat;
+
     List categories = CategoryModel.categories;
     return SizedBox(
       height: 40,
@@ -166,9 +167,13 @@ class _FilterViewState extends State<FilterView> {
               ],
             ),
             onSelected: (value) {
-              setState(() {
-                selectedId = currantCat.id;
-              });
+              // setState(() {
+              //   selectedId = currantCat.id;
+              // });
+              Provider.of<EventsProvider>(
+                context,
+                listen: false,
+              ).editSelectedCat(currantCat.id);
             },
             selected: isSelected,
           );

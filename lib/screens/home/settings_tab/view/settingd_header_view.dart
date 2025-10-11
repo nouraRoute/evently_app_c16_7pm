@@ -1,12 +1,16 @@
 import 'package:evently_app/common/theme/app_colors.dart';
 import 'package:evently_app/gen/assets.gen.dart';
+import 'package:evently_app/models/user_model.dart';
+import 'package:evently_app/providers/auth_provider.dart';
 import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
 
 class SettingsHeaderView extends StatelessWidget {
   const SettingsHeaderView({super.key});
 
   @override
   Widget build(BuildContext context) {
+    UserModel user = Provider.of<CurrantAuthProvider>(context).userModel!;
     return Container(
       padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -36,7 +40,7 @@ class SettingsHeaderView extends StatelessWidget {
                   spacing: 10,
                   children: [
                     Text(
-                      'data', //TODO:sow user data
+                      user.name, //TODO:sow user data
                       style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
@@ -44,7 +48,7 @@ class SettingsHeaderView extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      'data',
+                      user.email,
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,

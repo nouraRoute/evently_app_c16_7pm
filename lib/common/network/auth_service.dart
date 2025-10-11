@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:evently_app/models/event_model.dart';
 import 'package:evently_app/models/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -11,7 +12,7 @@ class AuthService {
         email: email,
         password: password,
       );
-      UserModel? user = await _getUserInfo(credential.user!.uid);
+      UserModel? user = await getUserInfo(credential.user!.uid);
       return user;
     } on FirebaseAuthException catch (e) {
       print('----->${e.code}');
@@ -55,10 +56,44 @@ class AuthService {
     await doc.set(user);
   }
 
-  static Future<UserModel?> _getUserInfo(String uid) async {
+  static Future<UserModel?> getUserInfo(String uid) async {
     CollectionReference<UserModel> users = _getUserCollection();
     DocumentSnapshot<UserModel> doc = await users.doc(uid).get();
-    return doc.data();
+    UserModel? user = doc.data();
+    if (user != null) {
+      List<EventModel> events = await getUserFavEvents(uid);
+      user.favEvents = events;
+    }
+    return user;
+  }
+
+  static CollectionReference<EventModel> _getUserFavCollection(String uid) {
+    CollectionReference<EventModel> userFavCollection = _getUserCollection()
+        .doc(uid)
+        .collection('fav_events')
+        .withConverter<EventModel>(
+          fromFirestore: (snapshot, options) =>
+              EventModel.fromJson(snapshot.data()!),
+          toFirestore: (value, options) => value.toJson(),
+        );
+    return userFavCollection;
+  }
+
+  static Future<List<EventModel>> getUserFavEvents(String uid) async {
+    CollectionReference<EventModel> collction = _getUserFavCollection(uid);
+    QuerySnapshot<EventModel> snapshot = await collction.get();
+    return snapshot.docs.map((e) => e.data()).toList();
+  }
+
+  static Future<void> addFavEvent(EventModel event, String uid) async {
+    CollectionReference<EventModel> collction = _getUserFavCollection(uid);
+    DocumentReference doc = collction.doc(event.id);
+    await doc.set(event);
+  }
+
+  static Future<void> removeFAvEvent(String eventID, String uid) async {
+    CollectionReference<EventModel> collction = _getUserFavCollection(uid);
+    await collction.doc(eventID).delete();
   }
 
   logout() {}

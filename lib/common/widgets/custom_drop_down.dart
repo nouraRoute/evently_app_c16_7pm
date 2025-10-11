@@ -3,9 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class CustomDropDown<T> extends StatelessWidget {
-  CustomDropDown({super.key, required this.title, required this.items});
+  CustomDropDown({
+    super.key,
+    required this.title,
+    required this.items,
+    required this.onChanged,
+    required this.value,
+  });
   List<DropdownMenuItem<T>>? items;
   String title;
+  T? value;
+  final void Function(T?) onChanged;
   @override
   Widget build(BuildContext context) {
     return Theme(
@@ -27,6 +35,7 @@ class CustomDropDown<T> extends StatelessWidget {
             ),
             SizedBox(
               child: DropdownButtonFormField(
+                initialValue: value,
                 icon: Icon(
                   Icons.arrow_drop_down_rounded,
                   color: AppColors.mainColor,
@@ -41,7 +50,7 @@ class CustomDropDown<T> extends StatelessWidget {
                 ),
 
                 items: items,
-                onChanged: (value) {},
+                onChanged: onChanged,
               ),
             ),
           ],

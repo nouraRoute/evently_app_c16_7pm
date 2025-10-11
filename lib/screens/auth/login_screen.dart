@@ -6,10 +6,12 @@ import 'package:evently_app/common/widgets/custom_text_field.dart';
 import 'package:evently_app/common/widgets/snackbar_helper.dart';
 import 'package:evently_app/gen/assets.gen.dart';
 import 'package:evently_app/models/user_model.dart';
+import 'package:evently_app/providers/auth_provider.dart';
 import 'package:evently_app/screens/auth/sign_up_screen.dart';
 import 'package:evently_app/screens/home/main_layer_screen.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
   static const String routeName = '/loginScreen';

@@ -1,13 +1,22 @@
+import 'package:evently_app/common/network/auth_service.dart';
 import 'package:evently_app/common/theme/app_colors.dart';
 import 'package:evently_app/models/category_model.dart';
 import 'package:evently_app/models/event_model.dart';
+import 'package:evently_app/models/user_model.dart';
+import 'package:evently_app/providers/auth_provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class EventCard extends StatelessWidget {
   const EventCard({super.key, required this.eventModel});
   final EventModel eventModel;
   @override
   Widget build(BuildContext context) {
+    bool isFav =
+        (Provider.of<CurrantAuthProvider>(context).userModel?.favEvents ?? [])
+            .indexWhere((element) => element.id == eventModel.id) !=
+        -1;
     String? image = CategoryModel.categories
         .firstWhere(
           (element) => element.id == eventModel.categoryId,
@@ -64,11 +73,38 @@ class EventCard extends StatelessWidget {
                   width: 24,
                   child: IconButton(
                     padding: EdgeInsets.all(0),
-                    onPressed: () {},
+                    onPressed: () async {
+                      showDialog(
+                        barrierDismissible: false,
+                        context: context,
+
+                        builder: (context) => Center(
+                          child: Container(
+                            padding: EdgeInsets.all(30),
+                            decoration: BoxDecoration(
+                              color: Theme.of(context).scaffoldBackgroundColor,
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: CircularProgressIndicator(),
+                          ),
+                        ),
+                      );
+
+                      String uid = FirebaseAuth.instance.currentUser!.uid;
+                      if (isFav) {
+                        await AuthService.removeFAvEvent(eventModel.id!, uid);
+                      } else {
+                        await AuthService.addFavEvent(eventModel, uid);
+                      }
+                      UserModel? user = await AuthService.getUserInfo(uid);
+                      Provider.of<CurrantAuthProvider>(
+                        context,
+                        listen: false,
+                      ).setCurrantUser(user!);
+                      Navigator.of(context).pop();
+                    },
                     icon: Icon(
-                      eventModel.isFav
-                          ? Icons.favorite
-                          : Icons.favorite_border_rounded,
+                      isFav ? Icons.favorite : Icons.favorite_border_rounded,
                       color: AppColors.mainColor,
                     ),
                   ),
